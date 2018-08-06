@@ -1,4 +1,5 @@
 from django.http import Http404, HttpResponse
+from django.template.loader import get_template
 
 import datetime
 
@@ -6,15 +7,21 @@ def hello(request):
 	return HttpResponse("Hello World!")
 
 def about(request):
-	return HttpResponse("about us:")
+	text = "About Us:"
+	t = get_template('includes/nav.html')
+	html = t.render({'current_section': text})
+	return HttpResponse(html)
 
 def writers(request):
-	html = "<html><body>Parisa Daj<br />Donya Sharafoddin</body></html>"
+	text = "Parisa Daj"
+	t = get_template('about.html')
+	html = t.render({'title': text})
 	return HttpResponse(html)
 
 def current_datetime(request):
 	now = datetime.datetime.now()
-	html = "<html><body> It is now %s.<br /></body></html>" % now
+	t = get_template('current_datetime.html')
+	html = t.render({'current_date': now})
 	return HttpResponse(html)
 
 def hours_ahead(request, offset):
@@ -23,5 +30,6 @@ def hours_ahead(request, offset):
 	except ValueError:
 		raise Http404()
 	dt = datetime.datetime.now()+ datetime.timedelta(hours=offset)
-	html = "<html><body>In %s hour(s), it will be %s.</body></html>" %(offset, dt)
+	t = get_template('hours_ahead.html')
+	html = t.render({'next_time': dt, 'hour_offset': offset})
 	return HttpResponse(html)
