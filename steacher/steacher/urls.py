@@ -16,6 +16,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from steacher.views import hello
+from steacher.views import about
+from steacher.views import writers
+from steacher.views import current_datetime
+from steacher.views import hours_ahead
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('hello/', hello),
+    path('about_us/', about),
+    path('about_us/ParisaDaj/', writers),
+    path('about_us/DonyaSharafoddin/', writers),
+    path('main/', current_datetime),
+    path('main/plus/<offset>/', hours_ahead),
 ]
